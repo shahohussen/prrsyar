@@ -1,0 +1,479 @@
+/* ==================== PROFILE STYLES - PROFESSIONAL DESIGN ==================== */
+
+/* Profile Header - Hero Section */
+.profile-header {
+background: linear-gradient(135deg, rgba(0, 243, 255, 0.1), rgba(188, 19, 254, 0.1));
+border: 2px solid var(–border);
+border-radius: var(–radius-xl);
+padding: var(–spacing-2xl) var(–spacing-lg);
+margin-bottom: var(–spacing-lg);
+text-align: center;
+position: relative;
+overflow: hidden;
+backdrop-filter: blur(20px);
+}
+
+.profile-header::before {
+content: ‘’;
+position: absolute;
+top: -50%;
+left: -50%;
+width: 200%;
+height: 200%;
+background: radial-gradient(circle, rgba(0, 243, 255, 0.1) 0%, transparent 70%);
+animation: profileGlow 10s ease-in-out infinite;
+}
+
+@keyframes profileGlow {
+0%, 100% { transform: translate(0, 0); }
+50% { transform: translate(10%, 10%); }
+}
+
+/* Avatar Container */
+.avatar-container {
+position: relative;
+display: inline-block;
+margin-bottom: var(–spacing-lg);
+z-index: 1;
+}
+
+.avatar {
+width: 120px;
+height: 120px;
+border-radius: 50%;
+background: linear-gradient(135deg, var(–primary), var(–secondary));
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 56px;
+border: 4px solid var(–bg);
+box-shadow: 0 10px 40px rgba(0, 243, 255, 0.4),
+0 0 0 8px rgba(0, 243, 255, 0.1);
+position: relative;
+animation: avatarPulse 3s ease-in-out infinite;
+}
+
+@keyframes avatarPulse {
+0%, 100% { box-shadow: 0 10px 40px rgba(0, 243, 255, 0.4), 0 0 0 8px rgba(0, 243, 255, 0.1); }
+50% { box-shadow: 0 15px 50px rgba(0, 243, 255, 0.6), 0 0 0 12px rgba(0, 243, 255, 0.2); }
+}
+
+.avatar-change {
+position: absolute;
+bottom: 5px;
+right: 5px;
+width: 36px;
+height: 36px;
+background: linear-gradient(135deg, var(–primary), var(–secondary));
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+cursor: pointer;
+border: 3px solid var(–bg);
+transition: var(–transition);
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.avatar-change:hover {
+transform: scale(1.1) rotate(90deg);
+box-shadow: 0 6px 20px rgba(0, 243, 255, 0.5);
+}
+
+.avatar-change i {
+font-size: 16px;
+color: white;
+}
+
+/* Profile Info */
+.profile-name {
+font-size: 28px;
+font-weight: 900;
+margin-bottom: var(–spacing-xs);
+background: linear-gradient(135deg, var(–primary), white);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+z-index: 1;
+position: relative;
+}
+
+.profile-id {
+font-size: 13px;
+color: var(–text-muted);
+font-family: var(–font-en);
+margin-bottom: var(–spacing-sm);
+z-index: 1;
+position: relative;
+}
+
+.profile-level {
+display: inline-flex;
+align-items: center;
+gap: var(–spacing-xs);
+padding: 8px 20px;
+background: rgba(255, 215, 0, 0.15);
+border: 2px solid rgba(255, 215, 0, 0.3);
+border-radius: 30px;
+color: var(–gold);
+font-size: 14px;
+font-weight: 700;
+z-index: 1;
+position: relative;
+box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
+}
+
+.profile-level span {
+font-family: var(–font-en);
+font-size: 16px;
+}
+
+/* Stats Grid - Modern Cards */
+.profile-stats-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+gap: var(–spacing-md);
+margin: var(–spacing-lg) 0;
+}
+
+.profile-stat-card {
+background: linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+border: 2px solid var(–border);
+border-radius: var(–radius-lg);
+padding: var(–spacing-lg);
+text-align: center;
+transition: var(–transition);
+position: relative;
+overflow: hidden;
+}
+
+.profile-stat-card::before {
+content: ‘’;
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+height: 3px;
+background: linear-gradient(90deg, var(–primary), var(–secondary));
+transform: scaleX(0);
+transition: var(–transition);
+}
+
+.profile-stat-card:hover {
+transform: translateY(-5px);
+border-color: var(–primary);
+box-shadow: 0 10px 30px rgba(0, 243, 255, 0.3);
+}
+
+.profile-stat-card:hover::before {
+transform: scaleX(1);
+}
+
+.profile-stat-icon {
+width: 50px;
+height: 50px;
+margin: 0 auto var(–spacing-sm);
+border-radius: 14px;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 24px;
+background: linear-gradient(135deg, rgba(0, 243, 255, 0.15), rgba(188, 19, 254, 0.15));
+border: 1px solid rgba(0, 243, 255, 0.3);
+}
+
+.profile-stat-value {
+font-size: 32px;
+font-weight: 900;
+font-family: var(–font-en);
+background: linear-gradient(135deg, var(–primary), white);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+margin-bottom: var(–spacing-xs);
+line-height: 1;
+}
+
+.profile-stat-label {
+font-size: 13px;
+color: var(–text-secondary);
+font-weight: 600;
+}
+
+/* Achievement Section */
+.achievements-container {
+margin: var(–spacing-lg) 0;
+}
+
+.achievements-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+gap: var(–spacing-md);
+}
+
+.achievement-item {
+background: linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+border: 2px solid var(–border);
+border-radius: var(–radius-lg);
+padding: var(–spacing-lg);
+display: flex;
+align-items: center;
+gap: var(–spacing-md);
+transition: var(–transition);
+position: relative;
+overflow: hidden;
+}
+
+.achievement-item::before {
+content: ‘’;
+position: absolute;
+top: 0;
+left: 0;
+width: 4px;
+height: 100%;
+background: linear-gradient(180deg, var(–primary), var(–secondary));
+transform: scaleY(0);
+transition: var(–transition);
+}
+
+.achievement-item.unlocked {
+border-color: var(–gold);
+background: linear-gradient(135deg, rgba(255, 215, 0, 0.08), rgba(255, 215, 0, 0.03));
+}
+
+.achievement-item.unlocked::before {
+transform: scaleY(1);
+background: linear-gradient(180deg, var(–gold), var(–warning));
+}
+
+.achievement-item:hover {
+transform: translateX(-5px);
+box-shadow: 0 8px 25px rgba(0, 243, 255, 0.2);
+}
+
+.achievement-item.locked {
+opacity: 0.5;
+filter: grayscale(0.8);
+}
+
+.achievement-icon-container {
+width: 60px;
+height: 60px;
+border-radius: 16px;
+background: linear-gradient(135deg, rgba(0, 243, 255, 0.15), rgba(188, 19, 254, 0.15));
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 32px;
+flex-shrink: 0;
+position: relative;
+}
+
+.achievement-item.unlocked .achievement-icon-container {
+background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 170, 0, 0.2));
+animation: achievementShine 2s ease-in-out infinite;
+}
+
+@keyframes achievementShine {
+0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.3); }
+50% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.6); }
+}
+
+.achievement-details {
+flex: 1;
+}
+
+.achievement-title {
+font-size: 16px;
+font-weight: 700;
+margin-bottom: 4px;
+color: var(–text-primary);
+}
+
+.achievement-description {
+font-size: 13px;
+color: var(–text-secondary);
+line-height: 1.4;
+}
+
+.achievement-status {
+font-size: 24px;
+color: var(–gold);
+flex-shrink: 0;
+}
+
+.achievement-item.locked .achievement-status {
+color: var(–text-muted);
+}
+
+/* Progress Section */
+.progress-container {
+margin: var(–spacing-lg) 0;
+}
+
+.progress-item {
+margin-bottom: var(–spacing-lg);
+}
+
+.progress-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: var(–spacing-sm);
+}
+
+.progress-label {
+font-size: 14px;
+font-weight: 600;
+color: var(–text-primary);
+}
+
+.progress-value {
+font-size: 13px;
+font-weight: 700;
+font-family: var(–font-en);
+color: var(–primary);
+}
+
+.progress-bar-container {
+height: 10px;
+background: rgba(255, 255, 255, 0.05);
+border-radius: 10px;
+overflow: hidden;
+border: 1px solid var(–border);
+}
+
+.progress-bar-fill {
+height: 100%;
+background: linear-gradient(90deg, var(–primary), var(–secondary));
+border-radius: 10px;
+transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+position: relative;
+overflow: hidden;
+}
+
+.progress-bar-fill::after {
+content: ‘’;
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+animation: progressShine 2s ease-in-out infinite;
+}
+
+@keyframes progressShine {
+0% { transform: translateX(-100%); }
+100% { transform: translateX(100%); }
+}
+
+/* Action Buttons */
+.profile-actions {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+gap: var(–spacing-md);
+margin-top: var(–spacing-xl);
+}
+
+.profile-action-btn {
+padding: var(–spacing-md);
+background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+border: 2px solid var(–border);
+border-radius: var(–radius-md);
+display: flex;
+align-items: center;
+gap: var(–spacing-sm);
+cursor: pointer;
+transition: var(–transition);
+}
+
+.profile-action-btn:hover {
+border-color: var(–primary);
+transform: translateY(-2px);
+box-shadow: 0 8px 20px rgba(0, 243, 255, 0.3);
+}
+
+.profile-action-btn i {
+font-size: 20px;
+color: var(–primary);
+}
+
+.profile-action-text {
+flex: 1;
+}
+
+.profile-action-title {
+font-size: 14px;
+font-weight: 700;
+color: var(–text-primary);
+margin-bottom: 2px;
+}
+
+.profile-action-desc {
+font-size: 12px;
+color: var(–text-secondary);
+}
+
+/* Empty State */
+.profile-empty-state {
+text-align: center;
+padding: var(–spacing-2xl);
+color: var(–text-muted);
+}
+
+.profile-empty-state i {
+font-size: 64px;
+margin-bottom: var(–spacing-lg);
+opacity: 0.3;
+}
+
+.profile-empty-state p {
+font-size: 16px;
+font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+.profile-header {
+padding: var(–spacing-xl) var(–spacing-md);
+}
+
+```
+.avatar {
+    width: 100px;
+    height: 100px;
+    font-size: 48px;
+}
+
+.profile-name {
+    font-size: 24px;
+}
+
+.profile-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.achievements-grid {
+    grid-template-columns: 1fr;
+}
+
+.profile-actions {
+    grid-template-columns: 1fr;
+}
+```
+
+}
+
+@media (max-width: 480px) {
+.avatar {
+width: 90px;
+height: 90px;
+font-size: 42px;
+}
+
+```
+.profile-stat-value {
+    font-size: 24px;
+}
+```
+
+}
