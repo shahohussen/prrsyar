@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="ckb" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#090014">
+    <meta name="description" content="SURVIVOR ULTRA - خێراترین یاری زانیاری">
+    <title>SURVIVOR ULTRA | FAST EDITION</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/game.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/enhancements.css">
+    
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+</head>
+<body>
+    <!-- Authentication Screen -->
+    <div id="authScreen" class="auth-screen">
+        <div class="auth-container">
+            <div class="auth-logo">🎮</div>
+            <h1 class="auth-title">SURVIVOR ULTRA</h1>
+            <p class="auth-subtitle">خێرابە بۆ خێراترین یاری زانیاری</p>
+            
+            <div class="auth-tabs">
+                <div class="auth-tab active" data-tab="login">چوونەژوورەوە</div>
+                <div class="auth-tab" data-tab="register">دروستکردنی هەژمار</div>
+            </div>
+            
+            <!-- Login Form -->
+            <form id="loginForm" class="auth-form">
+                <div class="form-group">
+                    <input type="email" id="loginEmail" class="form-input" placeholder="ئیمەیڵ" required autocomplete="email">
+                    <div class="error-message" id="loginEmailError"></div>
+                </div>
+                
+                <div class="form-group">
+                    <input type="password" id="loginPassword" class="form-input" placeholder="پاسۆرد" required autocomplete="current-password">
+                    <div class="error-message" id="loginPasswordError"></div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>چوونەژوورەوە</span>
+                </button>
+                
+                <div class="auth-divider"><span>یان</span></div>
+                
+                <button type="button" class="btn btn-google" id="googleLoginBtn">
+                    <i class="fab fa-google"></i>
+                    <span>چوونەژوورەوە بە گووگڵ</span>
+                </button>
+            </form>
+            
+            <!-- Register Form -->
+            <form id="registerForm" class="auth-form" style="display: none;">
+                <div class="form-group">
+                    <input type="text" id="registerName" class="form-input" placeholder="ناوی یاریزان" required autocomplete="name">
+                    <div class="error-message" id="registerNameError"></div>
+                </div>
+                
+                <div class="form-group">
+                    <input type="email" id="registerEmail" class="form-input" placeholder="ئیمەیڵ" required autocomplete="email">
+                    <div class="error-message" id="registerEmailError"></div>
+                </div>
+                
+                <div class="form-group">
+                    <input type="password" id="registerPassword" class="form-input" placeholder="پاسۆرد (کمینە ٨ نووسە)" required autocomplete="new-password">
+                    <div class="error-message" id="registerPasswordError"></div>
+                </div>
+                
+                <div class="form-group">
+                    <input type="password" id="registerConfirm" class="form-input" placeholder="دووبارەی پاسۆرد" required autocomplete="new-password">
+                    <div class="error-message" id="registerConfirmError"></div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-user-plus"></i>
+                    <span>دروستکردنی هەژمار</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Login Screen -->
+    <div id="adminLoginScreen" class="admin-login-screen">
+        <div class="admin-login-box">
+            <div class="admin-login-icon">🔒</div>
+            <h2>چوونەژوورەوەی ئەدمین</h2>
+            <p class="admin-login-desc">تەنها ئەدمینەکان دەتوانن بچنە ئەم بەشەوە</p>
+            
+            <form id="adminLoginForm">
+                <div class="form-group">
+                    <input type="email" id="adminEmail" class="form-input" placeholder="ئیمەیڵی ئەدمین" required>
+                </div>
+                
+                <div class="form-group">
+                    <input type="password" id="adminPassword" class="form-input" placeholder="پاسۆرد" required>
+                </div>
+                
+                <div class="admin-login-actions">
+                    <button type="button" class="btn" id="closeAdminLogin">
+                        <i class="fas fa-times"></i>
+                        <span>گەڕانەوە</span>
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-lock"></i>
+                        <span>چوونەژوورەوە</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Background -->
+    <div class="bg-overlay"></div>
+
+    <!-- Loading Screen -->
+    <div id="loading" class="loading-screen">
+        <div class="spinner"></div>
+        <div class="loading-text">SURVIVOR ULTRA</div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
+
+    <!-- Countdown Screen -->
+    <div id="countdownScreen" class="countdown-screen">
+        <div class="countdown-number" id="countdownNumber">٣</div>
+        <div class="countdown-text">یاری سەرەکی بەم زووانە دەست پێ دەکات!</div>
+        
+        <div class="ad-container" id="adContainer">
+            <div class="ad-icon">📺</div>
+            <div class="ad-text">سەیری ڕیکلامەکە بکە بۆ بەدەست هێنانی ٢٠ تۆکن!</div>
+            <div id="adTimer" class="ad-timer">٥</div>
+            <button class="btn btn-primary" id="watchAdBtn" disabled>
+                <i class="fas fa-play"></i>
+                <span>سەیرکردنی ڕیکلام (٥)</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="nav-bar" style="display: none;">
+        <a href="#home" class="nav-item active" data-screen="home">
+            <i class="fas fa-home"></i>
+            <span>سەرەکی</span>
+        </a>
+        <a href="#leaderboard" class="nav-item" data-screen="leaderboard">
+            <i class="fas fa-trophy"></i>
+            <span>پلەبەندی</span>
+        </a>
+        <a href="#game" class="nav-item" data-screen="game">
+            <i class="fas fa-play"></i>
+            <span>یاری</span>
+        </a>
+        <a href="#shop" class="nav-item" data-screen="shop">
+            <i class="fas fa-store"></i>
+            <span>کۆگا</span>
+        </a>
+        <a href="#profile" class="nav-item" data-screen="profile">
+            <i class="fas fa-user"></i>
+            <span>پڕۆفایل</span>
+        </a>
+        <a href="#admin" class="nav-item" data-screen="admin" style="display: none;">
+            <i class="fas fa-shield-alt"></i>
+            <span>ئەدمین</span>
+        </a>
+    </nav>
+
+    <!-- Home Screen -->
+    <section id="homeScreen" class="screen active">
+        <div class="header">
+            <div class="header-title">SURVIVOR</div>
+            <div class="header-stats">
+                <div class="online-users real" id="onlineUsers">
+                    <i class="fas fa-wifi"></i>
+                    <span>٠ ئۆنڵاین</span>
+                    <div class="pulse-dot"></div>
+                </div>
+                <div class="stat-badge">
+                    <i class="fas fa-coins"></i>
+                    <span id="homeCoins">٠</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-section">
+            <div class="hero-icon">🎮</div>
+            <h1 class="hero-title">SURVIVOR ULTRA</h1>
+            <p class="hero-subtitle">خێراترین یاری زانیاری | FAST EDITION</p>
+        </div>
+
+        <div class="card">
+            <button class="btn btn-primary" id="startMainGame">
+                <i class="fas fa-play"></i>
+                <span>دەستپێکردنی یاری سەرەکی</span>
+            </button>
+            
+            <div class="button-grid">
+                <button class="btn" id="startQuickGame">
+                    <i class="fas fa-bolt"></i>
+                    <span>یاری خێرا</span>
+                </button>
+                <button class="btn" id="showLeaderboard">
+                    <i class="fas fa-trophy"></i>
+                    <span>پلەبەندی</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 class="card-title">کاتی یاریەکانی ئەمڕۆ</h3>
+            
+            <div id="mainGameCountdown">
+                <!-- Main game countdown will be loaded here -->
+            </div>
+            
+            <div class="game-schedule" id="gameSchedule">
+                <!-- Schedule items will be loaded here -->
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 class="card-title">خاڵە سەرەکییەکانی ئەمڕۆ</h3>
+            <div id="topPlayers" class="top-players">
+                <!-- Top players will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Profile Screen -->
+    <section id="profileScreen" class="screen">
+        <div class="header">
+            <button class="btn btn-icon" data-back>
+                <i class="fas fa-arrow-right"></i>
+            </button>
+            <div class="header-title">پڕۆفایل</div>
+            <button class="btn btn-icon btn-danger" id="showDeleteAccount">
+                <i class="fas fa-trash"></i>
+            </button>
+        </div>
+
+        <div class="profile-header">
+            <div class="avatar-container">
+                <div class="avatar" id="profileAvatar">👤</div>
+                <div class="avatar-change" id="changeAvatar">
+                    <i class="fas fa-camera"></i>
+                </div>
+            </div>
+            
+            <h2 class="profile-name" id="profileName">یاریزان</h2>
+            <div class="profile-id" id="profileId">ID: #000000</div>
+            <div class="profile-level">ئاست <span id="profileLevel">١</span></div>
+        </div>
+
+        <div class="card">
+            <h3 class="card-title">ئامارەکان</h3>
+            <div id="userStats">
+                <!-- Stats will be loaded here -->
+            </div>
+        </div>
+        
+        <div class="card">
+            <h3 class="card-title">دەستکەوتەکان</h3>
+            <div id="achievementsList">
+                <!-- Achievements will be loaded here -->
+            </div>
+        </div>
+        
+        <div class="card">
+            <h3 class="card-title">مێژووی یاریەکان</h3>
+            <div id="gameHistory">
+                <!-- Game history will be loaded here -->
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 class="card-title">دەستکاری زانیاری</h3>
+            <form id="profileUpdateForm">
+                <div class="form-group">
+                    <input type="text" id="editName" class="form-input" placeholder="ناوی نوێ">
+                </div>
+                
+                <div class="form-group">
+                    <input type="email" id="editEmail" class="form-input" placeholder="ئیمەیڵی نوێ">
+                </div>
+                
+                <div class="form-group">
+                    <input type="password" id="editPassword" class="form-input" placeholder="پاسۆردی نوێ (بەجێبهێڵە بۆ گۆڕانکاری)">
+                </div>
+                
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i>
+                    <span>پاشەکەوتکردنی گۆڕانکاریەکان</span>
+                </button>
+            </form>
+        </div>
+        
+        <div class="card">
+            <button class="btn btn-danger" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>دەرچوون</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Leaderboard Screen -->
+    <section id="leaderboardScreen" class="screen">
+        <div class="header">
+            <button class="btn btn-icon" data-back>
+                <i class="fas fa-arrow-right"></i>
+            </button>
+            <div class="header-title">پلەبەندی</div>
+            <button class="btn btn-icon" id="refreshLeaderboard">
+                <i class="fas fa-sync"></i>
+            </button>
+        </div>
+
+        <div class="card">
+            <div class="timeframe-tabs">
+                <button class="timeframe-tab active" data-timeframe="all" onclick="changeLeaderboardTimeframe('all')">
+                    هەموو کاتەکان
+                </button>
+                <button class="timeframe-tab" data-timeframe="week" onclick="changeLeaderboardTimeframe('week')">
+                    ئەم هەفتەیە
+                </button>
+                <button class="timeframe-tab" data-timeframe="month" onclick="changeLeaderboardTimeframe('month')">
+                    ئەم مانگە
+                </button>
+            </div>
+
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="leaderboardSearch" placeholder="گەڕان بە ناو..." onkeyup="searchLeaderboard(this.value)">
+            </div>
+        </div>
+
+        <div id="currentUserRank" class="current-user-rank-container"></div>
+
+        <div class="card">
+            <div id="leaderboardList" class="leaderboard-list">
+                <!-- Leaderboard items will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Game Screen -->
+    <section id="gameScreen" class="screen">
+        <div class="game-header">
+            <button class="btn btn-icon" onclick="pauseGame()">
+                <i class="fas fa-pause"></i>
+            </button>
+            <div class="game-progress" id="gameProgress">1/10</div>
+            <div class="game-score">
+                <i class="fas fa-star"></i>
+                <span id="currentScore">0</span>
+            </div>
+        </div>
+
+        <div class="timer-container">
+            <div class="timer-circle">
+                <span id="timer" class="timer-value">15</span>
+            </div>
+            <div class="timer-bar">
+                <div class="timer-bar-fill" id="timerBarFill"></div>
+            </div>
+        </div>
+
+        <div class="card question-card">
+            <div id="question" class="question-text">پرسیار لێرە دێت...</div>
+        </div>
+
+        <div id="answers" class="answers-grid">
+            <!-- Answers will be loaded here -->
+        </div>
+
+        <div class="powerups-game">
+            <button class="powerup-btn" onclick="usePowerup('5050')" title="50-50">
+                🎯 <span id="powerup-5050">0</span>
+            </button>
+            <button class="powerup-btn" onclick="usePowerup('skip')" title="تێپەڕاندن">
+                ⏭️ <span id="powerup-skip">0</span>
+            </button>
+            <button class="powerup-btn" onclick="usePowerup('time')" title="کاتی زیادە">
+                ⏰ <span id="powerup-time">0</span>
+            </button>
+            <button class="powerup-btn" onclick="usePowerup('double')" title="دوو هێندە">
+                ✨ <span id="powerup-double">0</span>
+            </button>
+        </div>
+
+        <div id="countdown" class="countdown-overlay" style="display: none;">
+            <!-- Countdown will appear here -->
+        </div>
+    </section>
+
+    <!-- Shop Screen -->
+    <section id="shopScreen" class="screen">
+        <div class="header">
+            <button class="btn btn-icon" data-back>
+                <i class="fas fa-arrow-right"></i>
+            </button>
+            <div class="header-title">کۆگا</div>
+            <div class="stat-badge">
+                <i class="fas fa-coins"></i>
+                <span id="shopTokens">٠</span> تۆکن
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 class="card-title">تواناکان</h3>
+            
+            <div class="purchase-power" id="purchasePowerInfo">
+                <!-- Purchase power info -->
+            </div>
+            
+            <div class="shop-grid" id="shopGrid">
+                <!-- Shop items will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Admin Screen -->
+    <section id="adminScreen" class="screen">
+        <div class="header">
+            <button class="btn btn-icon" data-back>
+                <i class="fas fa-arrow-right"></i>
+            </button>
+            <div class="header-title">پەنەلی ئەدمین</div>
+            <button class="btn btn-icon btn-danger" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+
+        <div id="adminStats" class="admin-stats-container">
+            <!-- Stats will be loaded here -->
+        </div>
+
+        <div class="card">
+            <h3 class="card-title">بەڕێوەبردنی پرسیارەکان</h3>
+            
+            <button class="btn btn-primary" onclick="showAddQuestionForm()">
+                <i class="fas fa-plus"></i>
+                زیادکردنی پرسیار
+            </button>
+            
+            <div id="adminQuestions" class="admin-questions-list">
+                <!-- Questions will be loaded here -->
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 class="card-title">بەڕێوەبردنی یاریزانەکان</h3>
+            
+            <div id="adminUsers" class="admin-users-list">
+                <!-- Users will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Delete Account Modal -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-icon">⚠️</div>
+            <h2 class="modal-title">سڕینەوەی هەژمار</h2>
+            <p class="modal-desc">
+                دڵنیایت دەتەوێت هەژمارەکەت بسڕیتەوە؟<br>
+                هەموو زانیاریەکانت لەناو دەچێت و ناتوانیت بیگەڕێنیتەوە!
+            </p>
+            
+            <form id="deleteAccountForm">
+                <div class="form-group">
+                    <input type="password" id="deletePassword" class="form-input" placeholder="پاسۆردی خۆت بنووسە بۆ دڵنیابوون" required>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn" id="closeDeleteModal">
+                        <i class="fas fa-times"></i>
+                        <span>نەخێر</span>
+                    </button>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash"></i>
+                        <span>بەڵێ، بسڕەوە</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/firebase.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/shop.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/leaderboard.js"></script>
+    <script src="js/achievements.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

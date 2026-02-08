@@ -1,0 +1,118 @@
+/* Admin Panel Styles */
+:root {
+    --admin-bg: #1a1a2e;
+    --admin-card: rgba(30, 30, 60, 0.8);
+}
+
+.admin-header {
+    background: linear-gradient(135deg, var(--admin-bg), #16213e);
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+}
+
+.admin-header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.admin-header-title {
+    font-size: 28px;
+    background: linear-gradient(45deg, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.admin-header-subtitle {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+}
+
+.admin-badges {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.admin-badge {
+    background: linear-gradient(135deg, var(--accent), #ff3366);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.admin-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.admin-card {
+    background: var(--admin-card);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 25px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+    min-height: 140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+}
+
+.admin-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--primary);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 243, 255, 0.2);
+}
+
+.admin-icon {
+    font-size: 35px;
+    color: var(--primary);
+    margin-bottom: 12px;
+}
+
+.admin-title {
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 5px;
+}
+
+.admin-subtitle {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.4;
+}
+
+.admin-section {
+    display: none;
+}
+
+.admin-section.active {
+    display: block;
+}
+
+.admin-sections {
+    margin-top: 20px;
+}
+
+@media (max-width: 480px) {
+    .admin-grid { grid-template-columns: 1fr; }
+    .admin-card { padding: 20px 15px; min-height: 120px; }
+}
